@@ -1,0 +1,61 @@
+---
+title: "eds221-day2activity-wild-data"
+format: html
+editor: visual
+execute: 
+  warning: FALSE
+  echo: FALSE
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+```{r}
+mack_verts <- read_csv(here("data", "AS00601.csv")) %>%
+  clean_names()
+
+```
+
+```{r}
+mc_wt_5 <- mack_verts$weight[5]
+
+mc_length_8_20 <- mack_verts$length1[8:20]
+
+mc_dates <- mack_verts$sampledate[]
+```
+
+## Make a salamander subset
+
+```{r}
+mac_salamanders <- mack_verts%>%dplyr::filter(species == "DITE")
+```
+
+## Make a scatterplot
+
+```{r}
+ggplot(mac_salamanders,
+       aes(x = length1,
+       y = weight, color = weight, )) +
+  labs(title= "salamander length vs weight", x = "length (mm)", y = "weight (g)") +
+  geom_point() +
+  theme(plot.title = element_text(hjust = 0.5))  
+
+ggsave(here("figs", "salamander_size.png"),
+       width = 5, 
+       height =6)
+```
+
+## Make a cutthroat plot 
+
+```{r}
+mc_trout <-  mack_verts%>%dplyr::filter(species == "ONCL")
+ggplot(mc_trout,
+       aes(x = length1,
+       y = weight, color = weight, )) +
+  labs(title= "salamander length vs weight", x = "length (mm)", y = "weight (g)") +
+  geom_point() +
+  theme(plot.title = element_text(hjust = 0.5)) 
+```
