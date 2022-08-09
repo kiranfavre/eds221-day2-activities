@@ -52,10 +52,15 @@ ggsave(here("figs", "salamander_size.png"),
 
 ```{r}
 mc_trout <-  mack_verts%>%dplyr::filter(species == "ONCL")
-ggplot(mc_trout,
+
+ggplot(data = mc_trout,
        aes(x = length1,
-       y = weight, color = weight, )) +
-  labs(title= "salamander length vs weight", x = "length (mm)", y = "weight (g)") +
-  geom_point() +
+       y = weight,)) +
+  labs(title= "trout length vs weight", x = "length (mm)", y = "weight (g)") +
+  facet_wrap(~reach) +
+  geom_point(aes(color = reach, alpha = 0.5)) +
+  scale_color_manual(values = c("red", "purple", "green")) +
   theme(plot.title = element_text(hjust = 0.5)) 
+
+ggsave(here("figs","cutthroat_size.png"))
 ```
